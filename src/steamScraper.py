@@ -20,17 +20,27 @@ for game in all_games:
     game_page = requests.get(game_url)
     soup = BeautifulSoup(game_page.text, "html.parser")
     tags = soup.find('div', {'class': 'glance_tags popular_tags'})
+    
     try:
         tags_list = [tag.text.strip() for tag in tags]
         while("" in tags_list):
             tags_list.remove("")
     except:
         tags_list = ['untagged']
+
+    price = game.find('div', {'class': 'col search_price_discount_combined responsive_secondrow'})
+    try:
+        price1 = price.find('div', {'class': 'col search_price discounted responsive_secondrow'}).text.strip()
+    except:
+        continue
+
     d.append(
         {
-            'name': game.find('span', {'class': 'title'}).text.strip(),
-            'tags': tags_list[0:3],
-            'price': game.find('div', {'class': 'col search_price_discount_combined responsive_secondrow'}).text.strip()
+            'Name': game.find('span', {'class': 'title'}).text.strip(),
+            'Tags': tags_list[0:3],
+            'Original price': price1.split('€')[0],
+            'Discount': price.find('div', {'class': 'col search_discount responsive_secondrow'}).text.strip(),
+            'Offer price': price1.split('€')[1]
         }
     )
 df = pd.DataFrame(d)

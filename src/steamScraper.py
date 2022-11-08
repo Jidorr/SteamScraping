@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import sys
 import time
+import sys
 
 # Logging start time
 start_time = time.time()

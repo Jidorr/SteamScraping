@@ -4,6 +4,7 @@ import pandas as pd
 import sys
 import time
 import sys
+from datetime import date
 
 # Logging start time
 start_time = time.time()
@@ -66,9 +67,10 @@ for i in range(0, numPagines):
     # Pausing requests for 5 seconds to avoid overloading the server
     time.sleep(5)
 
-# Creating a result pandas DataFrame and exporting a csv file
+# Creating a result pandas DataFrame and exporting a csv file with the current date as the file name
 df = pd.DataFrame(d)
-df.to_csv("../outputs/result.csv", index=False)
+today = date.today().strftime("%b-%d-%Y")
+df.to_csv(f"../outputs/{str(today)}_offers.csv", index=False)
 
 # Fetching final execution time
 end_time = time.time()

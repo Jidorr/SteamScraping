@@ -63,6 +63,8 @@ for i in range(0, numPagines):
                 'Offer price': price1.split('€')[1]
             }
         )
+    # Pausing requests for 5 seconds to avoid overloading the server
+    time.sleep(5)
 
 # Creating a result pandas DataFrame and exporting a csv file
 df = pd.DataFrame(d)

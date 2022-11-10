@@ -70,7 +70,7 @@ for i in range(0, numPagines):
 # Creating a result pandas DataFrame and exporting a csv file with the current date as the file name
 df = pd.DataFrame(d)
 today = date.today().strftime("%b-%d-%Y")
-df.to_csv(f"../outputs/{str(today)}_offers.csv", index=False)
+df.to_csv(f"../dataset/{str(today)}_offers.csv", index=False)
 
 # Fetching final execution time
 end_time = time.time()

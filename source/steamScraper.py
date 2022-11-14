@@ -39,7 +39,7 @@ for i in range(0, numPagines):
         # Finding all the game tags
         tags = soup.find('div', {'class': 'glance_tags popular_tags'})
         
-        # Handling possible missing values
+        # Handling possible missing values in the tag list
         try:
             tags_list = [tag.text.strip() for tag in tags]
             while("" in tags_list):
@@ -48,20 +48,26 @@ for i in range(0, numPagines):
             tags_list = ['untagged']
 
         # Getting the discount and the original and final price
-        price = game.find('div', {'class': 'col search_price_discount_combined responsive_secondrow'})
+        prices = game.find('div', {'class': 'col search_price_discount_combined responsive_secondrow'})
         try:
-            price1 = price.find('div', {'class': 'col search_price discounted responsive_secondrow'}).text.strip()
+            original_and_offer_price = prices.find('div', {'class': 'col search_price discounted responsive_secondrow'}).text.strip()
         except:
             continue
+
+        # Setting variables for each column
+        name = game.find('span', {'class': 'title'}).text.strip()
+        original_price = original_and_offer_price.split('€')[0]
+        offer_price = original_and_offer_price.split('€')[1]
+        discount = prices.find('div', {'class': 'col search_discount responsive_secondrow'}).text.strip()
 
         # Creating a dictionary with the obtained information
         d.append(
             {
-                'Name': game.find('span', {'class': 'title'}).text.strip(),
+                'Name': name,
                 'Tags': tags_list[0:3],
-                'Original price': price1.split('€')[0],
-                'Discount': price.find('div', {'class': 'col search_discount responsive_secondrow'}).text.strip(),
-                'Offer price': price1.split('€')[1]
+                'Original price': original_price,
+                'Discount': discount,
+                'Offer price': offer_price
             }
         )
     # Pausing requests for 5 seconds to avoid overloading the server
